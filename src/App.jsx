@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 export default function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [showFullAbstract, setShowFullAbstract] = useState(false);
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
@@ -13,7 +14,7 @@ export default function App() {
         <div className="max-w-full mx-auto px-6 h-16 flex items-center justify-between">
           {/* Logo/Brand */}
           <div className="flex items-center text-xl font-bold tracking-tighter text-white">
-            <img src="blogo.png" alt="AgraBhi Logo" className="h-8 w-auto " />
+            <img src="blogo.png" alt="AgraBhi Logo" className="h-6 w-auto translate-y-[1px]" />
             <div>
               Agra<span className="text-emerald-400">Bhi</span>
             </div>
@@ -21,11 +22,17 @@ export default function App() {
           
           {/* Desktop Nav Links */}
           <div className="hidden md:flex items-center gap-8">
-            <a href="#abstract" className="text-xs uppercase tracking-widest font-bold text-slate-400 hover:text-emerald-400 transition-colors">Abstract</a>
+            <a 
+              href="#abstract" 
+              onClick={() => setShowFullAbstract(true)}
+              className="text-xs uppercase tracking-widest font-bold text-slate-400 hover:text-emerald-400 transition-colors"
+            >
+              Abstract
+            </a>
             <a href="#development" className="text-xs uppercase tracking-widest font-bold text-slate-400 hover:text-emerald-400 transition-colors">Current Work</a>
             <a href="#poster" className="text-xs uppercase tracking-widest font-bold text-slate-400 hover:text-emerald-400 transition-colors">Poster</a>
             <a href="#support" className="text-xs uppercase tracking-widest font-bold text-slate-400 hover:text-emerald-500 transition-colors">Support Us</a>
-            <a href="https://github.com/nathan-sharma/Agrabhi" className="text-xs uppercase tracking-widest font-bold text-slate-400 hover:text-emerald-500 transition-colors">GitHub</a>
+            <a target="_blank" rel="noopener noreferrer" href="https://github.com/nathan-sharma/Agrabhi" className="text-xs uppercase tracking-widest font-bold text-slate-400 hover:text-emerald-500 transition-colors">GitHub</a>
           </div>
 
           {/* Hamburger Icon (Mobile Only) */}
@@ -46,7 +53,13 @@ export default function App() {
         {/* Mobile Nav Links */}
         {isMenuOpen && (
           <div className="md:hidden bg-[#0D1117] border-b border-slate-800 px-6 py-4 flex flex-col gap-4">
-            <a href="#abstract" onClick={toggleMenu} className="text-xs uppercase tracking-widest font-bold text-slate-400 hover:text-emerald-400">Abstract</a>
+            <a 
+              href="#abstract" 
+              onClick={() => { setShowFullAbstract(true); toggleMenu(); }} 
+              className="text-xs uppercase tracking-widest font-bold text-slate-400 hover:text-emerald-400"
+            >
+              Abstract
+            </a>
             <a href="#development" onClick={toggleMenu} className="text-xs uppercase tracking-widest font-bold text-slate-400 hover:text-emerald-400">Current Work</a>
             <a href="#poster" onClick={toggleMenu} className="text-xs uppercase tracking-widest font-bold text-slate-400 hover:text-emerald-400">Poster</a>
             <a href="#support" onClick={toggleMenu} className="text-xs uppercase tracking-widest font-bold text-slate-400 hover:text-emerald-500">Support Us</a>
@@ -67,28 +80,32 @@ export default function App() {
           AgraBhi
         </h1>
         <h2 className="text-xl md:text-3xl font-medium mb-4 tracking-tight text-slate-300 max-w-7xl mx-auto leading-tight animate-slide-slow">
-          The First Low-Cost RTK-GPS and Regression Kriging System for <span className="text-emerald-400">Precision Irrigation.</span>
+         A Low Cost Drone-Based Soil Moisture Mapping System for <span className="text-emerald-400">Smarter Irrigation.</span>
         </h2>
       </header>
 
       {/* AWARDS BAR */}
       <section className="relative z-10 px-6 mb-4">
-        <div className="max-w-4xl mx-auto flex flex-wrap gap-4 justify-center">
-          <div className="flex items-center gap-3 bg-gradient-to-r from-slate-800 to-slate-900 border border-slate-700/50 px-5 py-3 rounded-full shadow-lg shadow-emerald-900/20">
-            <span className="text-2xl">🥈</span>
+        <div className="max-w-4xl mx-auto flex flex-wrap gap-6 justify-center">
+          
+          {/* Award 1 */}
+          <div className="flex items-center gap-4 bg-slate-900/50 border-l-2 border-emerald-500/50 px-6 py-3 rounded-r-xl">
+            <span className="text-3xl drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]">🥈</span>
             <div className="text-left">
-              <p className="text-[10px] uppercase tracking-widest text-emerald-400 font-bold">State Finalist</p>
-              <p className="text-sm font-semibold text-white">2026 Science & Engineering Fair of Houston</p>
+              <p className="text-[10px] uppercase tracking-[0.2em] text-emerald-400/80 font-bold mb-0.5">State Finalist</p>
+              <p className="text-sm font-semibold text-slate-100">2026 Science & Engineering Fair of Houston</p>
             </div>
           </div>
           
-          <div className="flex items-center gap-3 bg-gradient-to-r from-slate-800 to-slate-900 border border-slate-700/50 px-5 py-3 rounded-full shadow-lg shadow-emerald-900/20">
-            <span className="text-2xl">🥉</span>
+          {/* Award 2 */}
+          <div className="flex items-center gap-4 bg-slate-900/50 border-l-2 border-emerald-500/50 px-6 py-3 rounded-r-xl">
+            <span className="text-3xl drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]">🥉</span>
             <div className="text-left">
-              <p className="text-[10px] uppercase tracking-widest text-emerald-400 font-bold">Category Winner</p>
-              <p className="text-sm font-semibold text-white">2026 Texas Science & Engineering Fair</p>
+              <p className="text-[10px] uppercase tracking-[0.2em] text-emerald-400/80 font-bold mb-0.5">Category Winner</p>
+              <p className="text-sm font-semibold text-slate-100">2026 Texas Science & Engineering Fair</p>
             </div>
           </div>
+
         </div>
       </section>
 
@@ -109,44 +126,85 @@ export default function App() {
 
         <hr className="border-slate-900" />
 
-        {/* RESTORED: RICHLY FORMATTED ABSTRACT */}
+        {/* UPDATED ABSTRACT SECTION */}
         <section id="abstract" className="py-10 scroll-mt-24">
           <h2 className="text-sm font-bold uppercase tracking-wider text-emerald-400 mb-6">
-            2025-26 Abstract
+            What AgraBhi Does
           </h2>
           <div className="text-base font-light text-slate-300 leading-relaxed space-y-6">
             <p>
-              Variation in soil moisture across agricultural fields reduces crop yields and leads to inefficient water management. Climate change has increased the variability of soil moisture, intensifying this problem. Existing soil moisture gauging methods fail to capture moisture at the root level of crops.
+              AgraBhi is a low-cost drone system designed to help farmers better understand soil moisture patterns on their farm fields. Rather than solely relying on camera images, AgraBhi uses a physical soil sensor to measure moisture at the root level of crops, significantly improving measurement accuracy. It then uses interpolation models to predict moisture across the rest of the farm field.
             </p>
             
             <p>
-              An autonomous drone system, built for under $1000, collects soil moisture data and generates high-resolution field maps using various interpolation models and environmental covariates. The drone uses:
+              The goal of our project is to make irrigation decisions more precise, efficient, and affordable for farmers.
             </p>
 
-            <ul className="list-disc list-inside space-y-3 text-slate-400 pl-4 border-l border-emerald-500/30">
-              <li>A custom <span className="font-bold">linear actuator-driven soil sensor probe</span>, extending the sensor 11 centimeters into the ground.</li>
-              <li>A <span className="font-bold">Real-Time Kinematic (RTK) GPS</span> system providing centimeter-level accuracy using corrections from a fixed base station.</li>
-              <li>Raspberry Pi / Pixhawk communication for hands-free data collection upon landing.</li>
-            </ul>
+            <div className="pt-4">
+              <h2 className="text-sm font-bold uppercase tracking-wider text-emerald-400 mb-4">
+                Why This Matters
+              </h2>
+              <p className="mb-4">
+                Soil moisture varies dramatically across farm fields, and today, many farmers are simply guessing on how to irrigate their crops. This leads to overwatering, underwatering, wasted resources, and unhealthy yield. 
+              </p>
+              <p>
+                AgraBhi is being created to make moisture mapping more affordable, accurate, and practical, especially in places where high quality agricultural tools are too expensive to afford.
+              </p>
+            </div>
 
-            <p>
-              The drone can be controlled completely hands-free via a custom-coded application called the <span className="font-bold">AgraBhi Data Hub</span>, which is accessible on any web browser with a stable internet connection. 
-            </p>
+            {!showFullAbstract ? (
+              <button 
+                onClick={() => setShowFullAbstract(true)}
+                className="mt-4 px-6 py-2 bg-slate-800 hover:bg-slate-700 text-emerald-400 text-xs font-bold uppercase tracking-widest rounded-full border border-slate-700 transition-all"
+              >
+                Read full abstract
+              </button>
+            ) : (
+              <div className="animate-fade-in pt-4 border-t border-slate-800">
+                <h3 className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-4">2025-26 Science Fair Abstract</h3>
+                <div className="space-y-6">
+                  <p>
+                    Variation in soil moisture across agricultural fields reduces crop yields and leads to inefficient water management. Climate change has increased the variability of soil moisture, intensifying this problem. Existing soil moisture gauging methods fail to capture moisture at the root level of crops.
+                  </p>
+                  
+                  <p>
+                    An autonomous drone system, built for under $1000, collects soil moisture data and generates high-resolution field maps using various interpolation models and environmental covariates. The drone uses:
+                  </p>
 
-            <p>
-              Regarding data analysis, among Ordinary Kriging, Regression Kriging, and Inverse Distance Weighted Interpolation, <span className="font-bold">Regression Kriging</span> demonstrated the smallest Root-Mean-Square Error (RMSE) in Leave-One-Out-Cross-Validation (LOOCV) and reasonable Mean Error (ME) when coupled with elevation data.
-            </p>
+                  <ul className="list-disc list-inside space-y-3 text-slate-400 pl-4 border-l border-emerald-500/30">
+                    <li>A custom <span className="font-bold">linear actuator-driven soil sensor probe</span>, extending the sensor 11 centimeters into the ground.</li>
+                    <li>A <span className="font-bold">Real-Time Kinematic (RTK) GPS</span> system providing centimeter-level accuracy using corrections from a fixed base station.</li>
+                    <li>Raspberry Pi / Pixhawk communication for hands-free data collection upon landing.</li>
+                  </ul>
 
-            <p>
-              Field validation shows interpolated moisture values are within experimental uncertainty of ground-truth measurements. While commercial agricultural drones cost several thousand dollars, our relatively low-cost system provides high-resolution, spatially explicit moisture mapping, revealing detailed patterns of soil moisture variation and potentially supporting improved irrigation decision-making and water efficiency.
-            </p>
+                  <p>
+                    The drone can be controlled completely hands-free via a custom-coded application called the <span className="font-bold">AgraBhi Data Hub</span>, which is accessible on any web browser with a stable internet connection. 
+                  </p>
+
+                  <p>
+                    Regarding data analysis, among Ordinary Kriging, Regression Kriging, and Inverse Distance Weighted Interpolation, <span className="font-bold">Regression Kriging</span> demonstrated the smallest Root-Mean-Square Error (RMSE) in Leave-One-Out-Cross-Validation (LOOCV) and reasonable Mean Error (ME) when coupled with elevation data.
+                  </p>
+
+                  <p>
+                    Field validation shows interpolated moisture values are within experimental uncertainty of ground-truth measurements. While commercial agricultural drones cost several thousand dollars, our relatively low-cost system provides high-resolution, spatially explicit moisture mapping, revealing detailed patterns of soil moisture variation and potentially supporting improved irrigation decision-making and water efficiency.
+                  </p>
+                  
+                  <button 
+                    onClick={() => setShowFullAbstract(false)}
+                    className="text-xs text-slate-500 hover:text-emerald-400 underline underline-offset-4 transition-colors"
+                  >
+                    Show less
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         </section>
 
         <hr className="border-slate-900" />
 
         {/* CURRENT DEVELOPMENT SECTION */}
-        <section id="development" className="py-10 scroll-mt-24">
+        <section id="development" className="py-5 scroll-mt-24 ">
           <h2 className="text-sm font-bold uppercase tracking-wider text-emerald-400 mb-8">
             What we're working on now
           </h2>
@@ -175,11 +233,25 @@ export default function App() {
         <hr className="border-slate-900" />
 
         {/* RESEARCH POSTER SECTION */}
-        <section id="poster" className="py-10 scroll-mt-24">
+        <section id="poster" className="py-5 scroll-mt-24">
           <h2 className="text-sm font-bold uppercase tracking-wider text-emerald-400 mb-6">
             2025-26 Poster Board
           </h2>
-          <div className="bg-[#161B22] border border-slate-800 p-1 rounded-xl shadow-xl">
+          
+          {/* Button for smaller screens */}
+          <div className="md:hidden">
+            <a 
+              href="https://drive.google.com/file/d/1TR2aueFCylzw7Rai_YTZquHvooWqFICa/view?usp=sharing" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="block w-full text-center py-2 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-[#0D1117] font-bold uppercase tracking-widest transition-all shadow-lg shadow-emerald-500/20"
+            >
+             Open in new tab
+            </a>
+          </div>
+
+          {/* Hidden on small screens, shown on md and up */}
+          <div className="hidden md:block bg-[#161B22] border border-slate-800 p-1 rounded-xl shadow-xl">
             <div className="bg-[#0D1117] w-full h-[800px] overflow-hidden rounded-lg">
               <iframe
                 src="/agrabhi-website/poster.pdf"
@@ -194,33 +266,59 @@ export default function App() {
 
         {/* NEXT STEPS & SUPPORT */}
         <section id="support" className="py-5 scroll-mt-24">
-          <h2 className="text-sm font-bold uppercase tracking-wider text-emerald-400 mb-8">
+          <h2 className="text-sm font-bold uppercase tracking-wider text-emerald-400 mb-5">
             Where We Need Your Help
           </h2>
-          <div className="space-y-5">
+          <div className="space-y-8">
             <div>
-              <h3 className="text-white font-bold mb-2">1. Farm Fields</h3>
+              <h3 className="text-white font-bold mb-2">1. Access to Farm Fields</h3>
               <p className="text-slate-400 font-light leading-relaxed max-w-7xl">
-                We want to test how accurate our image models are and whether adaptive sampling will really improve the accuracy of our drone's predictions. To do so, we need access to a small farm field to collect moisture and image data. Please let us know of any connections you may have to Texan farmers!
+                We are currently looking for access to small farm fields to collect data and test whether our adapative path planning and image analysis methods will actually lead to prediction improvements on real farms.
               </p>
             </div>
 
             <div>
-              <h3 className="text-white font-bold mb-2">2. Hardware Cost</h3>
+              <h3 className="text-white font-bold mb-2">2. Hardware Support</h3>
               <p className="text-slate-400 font-light leading-relaxed max-w-7xl">
-                Hardware costs for this prototype are ~$2,000, but our families are on very tight budgets and can't afford to pay for all parts. Any form of donation or sponsorship would be really appreciated!
+                Some components are very expensive for us to afford. We would really appreciate any sponsorships, donations, or connections to organizations that may be willing to support the project.
               </p>
-              <p className="mt-4 text-slate-300">
-                Interested in helping? Please reach out to us at <a href="mailto:nathansharma007@gmail.com" className="text-emerald-400 hover:underline transition-colors">nathansharma007@gmail.com</a>.
+            </div>
+
+            <div>
+              <h3 className="text-white font-bold mb-2">3. Experience in Agriculture</h3>
+              <p className="text-slate-400 font-light leading-relaxed max-w-7xl">
+                If you have experience in farming, irrigation, or precision agriculture, we would also value your feedback on the project.
               </p>
             </div>
           </div>
         </section>
       </main>
 
-      <footer className="border-t border-slate-900 py-12">
-        <div className="max-w-7xl mx-auto px-6 text-center text-sm text-slate-600">
-          <p>AgraBhi was created by Nathan Sharma, Naitik Patel, and Evan Quach.</p>
+   <footer className="border-t border-slate-800 bg-[#0D1117] py-8">
+        <div className="max-w-5xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-y-2 md:gap-6">
+          <div className="text-center md:text-left">
+            <div className="flex items-center justify-center md:justify-start  mb-1">
+              <img src="blogo.png" alt="Logo" className="h-5 w-auto" />
+              <h2 className="text-lg font-bold text-white leading-none">
+                Agra<span className="text-emerald-400">Bhi</span>
+              </h2>
+            </div>
+            <p className="text-xs text-slate-400">
+              Created by <span className="text-slate-200">Nathan Sharma, Naitik Patel, & Evan Quach</span>
+            </p>
+          </div>
+
+          <div className="flex flex-col md:flex-row gap-x-6 gap-y-0 md:gap-y-1 text-center">
+            <a href="mailto:nathansharma007@gmail.com" className="text-xs text-emerald-400 hover:text-emerald-300 transition-colors">
+              nathansharma007@gmail.com
+            </a>
+            <a href="mailto:naitik.s.patel10@gmail.com" className="text-xs text-emerald-400 hover:text-emerald-300 transition-colors">
+              naitik.s.patel10@gmail.com
+            </a>
+            <a href="mailto:quachevan@gmail.com" className="text-xs text-emerald-400 hover:text-emerald-300 transition-colors">
+              quachevan@gmail.com
+            </a>
+          </div>
         </div>
       </footer>
     </div>
