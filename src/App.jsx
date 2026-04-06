@@ -13,7 +13,7 @@ export default function App() {
         <div className="max-w-full mx-auto px-6 h-16 flex items-center justify-between">
           {/* Logo/Brand */}
           <div className="flex items-center text-xl font-bold tracking-tighter text-white">
-            <img src="logo.png" alt="AgraBhi Logo" className="h-14 w-auto translate-y-1" />
+            <img src="blogo.png" alt="AgraBhi Logo" className="h-8 w-auto " />
             <div>
               Agra<span className="text-emerald-400">Bhi</span>
             </div>
@@ -61,12 +61,12 @@ export default function App() {
       {/* Background Decorative Glow */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl -z-10"></div>
 
-      {/* Header / Hero Section */}
+   {/* Header / Hero Section */}
       <header className="relative pt-32 pb-8 px-6 text-center">
-        <h1 className="text-6xl md:text-7xl font-extrabold mb-6 tracking-tight text-white py-2">
+        <h1 className="text-6xl md:text-7xl font-extrabold mb-6 tracking-tight text-white py-2 animate-pop-slow">
           AgraBhi
         </h1>
-        <h2 className="text-xl md:text-3xl font-medium mb-4 tracking-tight text-slate-300 max-w-7xl mx-auto leading-tight">
+        <h2 className="text-xl md:text-3xl font-medium mb-4 tracking-tight text-slate-300 max-w-7xl mx-auto leading-tight animate-slide-slow">
           The First Low-Cost RTK-GPS and Regression Kriging System for <span className="text-emerald-400">Precision Irrigation.</span>
         </h2>
       </header>
@@ -220,7 +220,7 @@ export default function App() {
 
       <footer className="border-t border-slate-900 py-12">
         <div className="max-w-7xl mx-auto px-6 text-center text-sm text-slate-600">
-          <p>AgraBhi, a project by Nathan Sharma, Naitik Patel, and Evan Quach</p>
+          <p>AgraBhi was created by Nathan Sharma, Naitik Patel, and Evan Quach.</p>
         </div>
       </footer>
     </div>

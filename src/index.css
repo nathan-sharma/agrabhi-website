@@ -35,3 +35,35 @@ code {
   padding: 4px 8px;
   border-radius: 4px;
 }
+/* Animation for the Main Title */
+@keyframes popIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Animation for the Subheader */
+@keyframes slideInRight {
+  0% {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-pop-slow {
+  animation: popIn 1.2s ease-out forwards;
+}
+
+.animate-slide-slow {
+  opacity: 0; /* Starts hidden until animation begins */
+  animation: slideInRight 1.5s ease-out 0.5s forwards; /* 0.5s delay so it starts after the title */
+}
