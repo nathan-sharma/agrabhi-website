@@ -16,7 +16,7 @@ export default function App() {
           <div className="flex items-center text-xl font-bold tracking-tighter text-white">
             <img src="blogo.png" alt="AgraBhi Logo" className="h-6 w-auto translate-y-[1px]" />
             <div >
-              <a href="/">Agra<span className="text-emerald-400">Bhi</span></a>
+              <a href="#">Agra<span className="text-emerald-400">Bhi</span></a>
             </div>
           </div>
           
