@@ -1,6 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 export default function App() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+
   return (
     <div className="min-h-screen bg-[#0D1117] text-[#E2E8F0] font-sans overflow-x-hidden">
       
@@ -15,15 +19,40 @@ export default function App() {
             </div>
           </div>
           
-          {/* Nav Links */}
-          <div className="flex items-center gap-8">
+          {/* Desktop Nav Links */}
+          <div className="hidden md:flex items-center gap-8">
             <a href="#abstract" className="text-xs uppercase tracking-widest font-bold text-slate-400 hover:text-emerald-400 transition-colors">Abstract</a>
             <a href="#development" className="text-xs uppercase tracking-widest font-bold text-slate-400 hover:text-emerald-400 transition-colors">Current Work</a>
             <a href="#poster" className="text-xs uppercase tracking-widest font-bold text-slate-400 hover:text-emerald-400 transition-colors">Poster</a>
             <a href="#support" className="text-xs uppercase tracking-widest font-bold text-slate-400 hover:text-emerald-500 transition-colors">Support Us</a>
             <a href="https://github.com/nathan-sharma/Agrabhi" className="text-xs uppercase tracking-widest font-bold text-slate-400 hover:text-emerald-500 transition-colors">GitHub</a>
           </div>
+
+          {/* Hamburger Icon (Mobile Only) */}
+          <button 
+            onClick={toggleMenu}
+            className="md:hidden text-slate-400 hover:text-white focus:outline-none"
+          >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              {isMenuOpen ? (
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+              ) : (
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7" />
+              )}
+            </svg>
+          </button>
         </div>
+
+        {/* Mobile Nav Links */}
+        {isMenuOpen && (
+          <div className="md:hidden bg-[#0D1117] border-b border-slate-800 px-6 py-4 flex flex-col gap-4">
+            <a href="#abstract" onClick={toggleMenu} className="text-xs uppercase tracking-widest font-bold text-slate-400 hover:text-emerald-400">Abstract</a>
+            <a href="#development" onClick={toggleMenu} className="text-xs uppercase tracking-widest font-bold text-slate-400 hover:text-emerald-400">Current Work</a>
+            <a href="#poster" onClick={toggleMenu} className="text-xs uppercase tracking-widest font-bold text-slate-400 hover:text-emerald-400">Poster</a>
+            <a href="#support" onClick={toggleMenu} className="text-xs uppercase tracking-widest font-bold text-slate-400 hover:text-emerald-500">Support Us</a>
+            <a href="https://github.com/nathan-sharma/Agrabhi" onClick={toggleMenu} className="text-xs uppercase tracking-widest font-bold text-slate-400 hover:text-emerald-500">GitHub</a>
+          </div>
+        )}
       </nav>
 
       {/* Grid Overlay */}
