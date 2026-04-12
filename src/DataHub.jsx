@@ -25,8 +25,7 @@ const [maxUncertainty, setMaxUncertainty] = useState(null);
     piIpRef.current = piIp;
   }, [piIp]);
 
-  const baseURL = "https://raspberrypi.tail6aef40.ts.net";
-
+  const baseURL = `http://${piIp}:5000`;
 
   const mapRef = useRef(null);
   const leafletMap = useRef(null);
@@ -107,7 +106,7 @@ const [maxUncertainty, setMaxUncertainty] = useState(null);
     } catch {
       setConnected(false);
       addLog("Unable to connect", "error");
-      setStatusMsg("Failed to connect. Check your IP address and make sure the drone is powered on and connected to the internet.");
+      setStatusMsg("Failed to connect. Check your IP address and make sure the drone is powered on and connected to the internet. Make sure you enabled permissions to connect to devices on your network.");
     }
   }
 
@@ -344,7 +343,7 @@ const [maxUncertainty, setMaxUncertainty] = useState(null);
               }
             }}
           >
-            Use an IP Address
+            Edit IP Address
           </button>
         </div>
 
