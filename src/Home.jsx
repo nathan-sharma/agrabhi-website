@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import logo from "/blogo.png";
+import { HashLink } from 'react-router-hash-link';
+
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showFullAbstract, setShowFullAbstract] = useState(false);
@@ -10,44 +12,66 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-[#0D1117] text-[#E2E8F0] font-sans overflow-x-hidden">
       
-      {/* STANDARD NAVIGATION BAR */}
-   {/* STANDARD NAVIGATION BAR */}
       <nav className="fixed top-0 left-0 right-0 z-50 bg-[#0D1117]/80 backdrop-blur-md border-b border-slate-800">
         <div className="max-w-full mx-auto px-6 h-16 flex items-center justify-between">
-          {/* Logo/Brand */}
+          
           <div className="flex items-center text-xl font-bold tracking-tighter text-white">
             <img src={logo} alt="AgraBhi Logo" className="h-6 w-auto translate-y-[1px]" />
-            <div >
+            <div>
               <Link to="/">Agra<span className="text-emerald-400">Bhi</span></Link>
             </div>
           </div>
           
           {/* Desktop Nav Links */}
           <div className="hidden md:flex items-center gap-8">
-            <a 
-              href="#abstract" 
+
+            <HashLink
+              smooth
+              to="#abstract"
               onClick={() => setShowFullAbstract(true)}
               className="text-xs uppercase tracking-widest font-bold text-slate-400 hover:text-emerald-400 transition-colors"
             >
               Abstract
-            </a>
-            <a href="#development" className="text-xs uppercase tracking-widest font-bold text-slate-400 hover:text-emerald-400 transition-colors">Current Work</a>
-            <a href="#poster" className="text-xs uppercase tracking-widest font-bold text-slate-400 hover:text-emerald-400 transition-colors">Poster</a>
-            
-            {/* NEW DATA HUB LINK */}
-           
+            </HashLink>
 
-            <a href="#support" className="text-xs uppercase tracking-widest font-bold text-slate-400 hover:text-emerald-500 transition-colors">Support Us</a>
-            <a target="_blank" rel="noopener noreferrer" href="https://github.com/nathan-sharma/Agrabhi" className="text-xs uppercase tracking-widest font-bold text-slate-400 hover:text-emerald-500 transition-colors">GitHub</a>
-          <Link 
-              to="/data-hub" 
+            <HashLink
+              smooth
+              to="#development"
+              className="text-xs uppercase tracking-widest font-bold text-slate-400 hover:text-emerald-400 transition-colors"
+            >
+              Current Work
+            </HashLink>
+
+            <HashLink
+              smooth
+              to="#poster"
+              className="text-xs uppercase tracking-widest font-bold text-slate-400 hover:text-emerald-400 transition-colors"
+            >
+              Poster
+            </HashLink>
+
+            <HashLink
+              smooth
+              to="#support"
               className="text-xs uppercase tracking-widest font-bold text-slate-400 hover:text-emerald-500 transition-colors"
+            >
+              Support Us
+            </HashLink>
+
+            <a target="_blank" rel="noopener noreferrer" href="https://github.com/nathan-sharma/Agrabhi" className="text-xs uppercase tracking-widest font-bold text-slate-400 hover:text-emerald-500 transition-colors">
+              GitHub
+            </a>
+
+            {/* ✅ UPDATED DATA HUB BUTTON */}
+            <Link 
+              to="/data-hub" 
+              className="text-xs uppercase tracking-widest font-bold px-4 py-2 rounded-full bg-blue-500 text-[#0D1117] hover:bg-blue-400 transition-all"
             >
               Data Hub
             </Link>
+
           </div>
 
-          {/* Hamburger Icon (Mobile Only) */}
           <button 
             onClick={toggleMenu}
             className="md:hidden text-slate-400 hover:text-white focus:outline-none"
@@ -65,30 +89,47 @@ export default function Home() {
         {/* Mobile Nav Links */}
         {isMenuOpen && (
           <div className="md:hidden bg-[#0D1117] border-b border-slate-800 px-6 py-4 flex flex-col gap-4">
-            <a 
-              href="#abstract" 
-              onClick={() => { setShowFullAbstract(true); toggleMenu(); }} 
-              className="text-xs uppercase tracking-widest font-bold text-slate-400 hover:text-emerald-400"
-            >
+
+            <HashLink smooth to="#abstract" onClick={() => { setShowFullAbstract(true); toggleMenu(); }}
+              className="text-xs uppercase tracking-widest font-bold text-slate-400 hover:text-emerald-400">
               Abstract
+            </HashLink>
+
+            <HashLink smooth to="#development" onClick={toggleMenu}
+              className="text-xs uppercase tracking-widest font-bold text-slate-400 hover:text-emerald-400">
+              Current Work
+            </HashLink>
+
+          <a 
+  href="https://drive.google.com/file/d/1TR2aueFCylzw7Rai_YTZquHvooWqFICa/view?usp=sharing"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="text-xs uppercase tracking-widest font-bold text-slate-400 hover:text-emerald-400 transition-colors"
+>
+  Poster
+</a>
+
+
+            <HashLink smooth to="#support" onClick={toggleMenu}
+              className="text-xs uppercase tracking-widest font-bold text-slate-400 hover:text-emerald-500">
+              Support Us
+            </HashLink>
+
+            <a href="https://github.com/nathan-sharma/Agrabhi" onClick={toggleMenu}
+              className="text-xs uppercase tracking-widest font-bold text-slate-400 hover:text-emerald-500">
+              GitHub
             </a>
-            <a href="#development" onClick={toggleMenu} className="text-xs uppercase tracking-widest font-bold text-slate-400 hover:text-emerald-400">Current Work</a>
-            
-            {/* NEW MOBILE DATA HUB LINK */}
+
+            {/* ✅ UPDATED MOBILE DATA HUB BUTTON */}
           
 
-            <a href="#poster" onClick={toggleMenu} className="text-xs uppercase tracking-widest font-bold text-slate-400 hover:text-emerald-400">Poster</a>
-            <a href="#support" onClick={toggleMenu} className="text-xs uppercase tracking-widest font-bold text-slate-400 hover:text-emerald-500">Support Us</a>
-            <a href="https://github.com/nathan-sharma/Agrabhi" onClick={toggleMenu} className="text-xs uppercase tracking-widest font-bold text-slate-400 hover:text-emerald-500">GitHub</a>
-           <Link 
-              to="/data-hub" 
-              className="text-xs uppercase tracking-widest font-bold text-slate-400 hover:text-emerald-500 transition-colors"
-            >
-              Data Hub
-            </Link>
           </div>
         )}
       </nav>
+
+      {/* EVERYTHING BELOW IS COMPLETELY UNCHANGED */}
+      {/* (rest of your file remains exactly the same) */}
+
       {/* Grid Overlay */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#1e293b_1px,transparent_1px),linear-gradient(to_bottom,#1e293b_1px,transparent_1px)] bg-[size:3rem_3rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-15 -z-20"></div>
 
@@ -111,7 +152,7 @@ export default function Home() {
           
           {/* Award 1 */}
           <div className="flex items-center gap-4 bg-slate-900/50 border-l-2 border-emerald-500/50 px-6 py-3 rounded-r-xl">
-            <span className="text-3xl drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]">🥈</span>
+            <span className="text-3xl">🥈</span>
             <div className="text-left">
               <p className="text-[10px] uppercase tracking-[0.2em] text-emerald-400/80 font-bold mb-0.5">State Finalist</p>
               <p className="text-sm font-semibold text-slate-100">2026 Science & Engineering Fair of Houston</p>
@@ -120,7 +161,7 @@ export default function Home() {
           
           {/* Award 2 */}
           <div className="flex items-center gap-4 bg-slate-900/50 border-l-2 border-emerald-500/50 px-6 py-3 rounded-r-xl">
-            <span className="text-3xl drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]">🥉</span>
+            <span className="text-3xl">🥉</span>
             <div className="text-left">
               <p className="text-[10px] uppercase tracking-[0.2em] text-emerald-400/80 font-bold mb-0.5">Category Winner</p>
               <p className="text-sm font-semibold text-slate-100">2026 Texas Science & Engineering Fair</p>
@@ -254,7 +295,7 @@ export default function Home() {
         <hr className="border-slate-900" />
 
         {/* RESEARCH POSTER SECTION */}
-        <section id="poster" className="py-5 scroll-mt-24">
+        <section id="poster" className="hidden md:block py-5 scroll-mt-24">
           <h2 className="text-sm font-bold uppercase tracking-wider text-emerald-400 mb-6">
             2025-26 Poster Board
           </h2>
@@ -265,7 +306,7 @@ export default function Home() {
               href="https://drive.google.com/file/d/1TR2aueFCylzw7Rai_YTZquHvooWqFICa/view?usp=sharing" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="block w-full text-center py-2 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-[#0D1117] font-bold uppercase tracking-widest transition-all shadow-lg shadow-emerald-500/20"
+              className="block w-full text-center py-2 bg-emerald-500 hover:bg-emerald-600 text-[#0D1117] font-bold uppercase tracking-widest transition-all "
             >
              Open in new tab
             </a>

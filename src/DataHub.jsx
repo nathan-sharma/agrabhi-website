@@ -133,7 +133,7 @@ async function triggerLocalNetworkPrompt() {
     setConnected(false);
     addLog("Unable to connect", "error");
     setStatusMsg(
-      "Failed to connect. Check your IP address."
+      "Failed to connect. Check your IP address and make sure all components are powered on and connected to the internet."
     );
   }
 }
@@ -362,7 +362,7 @@ async function triggerLocalNetworkPrompt() {
         <div className="space-y-2 text-sm text-gray-300 leading-relaxed">
           <p>Make sure your Pi is registered with Tailscale before attempting to connect. Enter the IP address from Tailscale to connect.</p>
           <p>The program will refuse to log if your sample points are too close together.</p>
-          <p>Please see Mission Planner for telemetry data.</p>
+          <p>See Mission Planner for drone telemetry data.</p>
           <p>Enter sprinkler coordinates for better heatmap accuracy.</p>
           <p>Click 'Read Sensors' before logging data.</p>
         </div>
