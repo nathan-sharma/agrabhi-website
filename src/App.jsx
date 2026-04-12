@@ -1,19 +1,20 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Home from './Home'; // Move your current code here
-import DataHub from './DataHub'; // Your new page
+import React from "react";
+import { HashRouter, Routes, Route } from "react-router-dom";
+
+import Home from "./Home";
+import DataHub from "./DataHub";
 import "leaflet/dist/leaflet.css";
 
 export default function App() {
   return (
-    <Router basename='/agrabhi-website'>
+    <HashRouter>
       <Routes>
-        {/* The main landing page */}
+        {/* Main page */}
         <Route path="/" element={<Home />} />
-        
-        {/* The new page you want to create */}
+
+        {/* DataHub page */}
         <Route path="/data-hub" element={<DataHub />} />
       </Routes>
-    </Router>
+    </HashRouter>
   );
 }
