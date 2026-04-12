@@ -25,7 +25,8 @@ const [maxUncertainty, setMaxUncertainty] = useState(null);
     piIpRef.current = piIp;
   }, [piIp]);
 
-  const baseURL = `http://${piIp}:5000`;
+  const baseURL = "https://raspberrypi.tail6aef40.ts.net";
+
 
   const mapRef = useRef(null);
   const leafletMap = useRef(null);
@@ -343,7 +344,7 @@ const [maxUncertainty, setMaxUncertainty] = useState(null);
               }
             }}
           >
-            Edit IP Address
+            Use an IP Address
           </button>
         </div>
 
