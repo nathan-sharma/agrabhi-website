@@ -224,9 +224,28 @@ const [maxUncertainty, setMaxUncertainty] = useState(null);
     }
   }
 
-  function downloadLogs() {
-    window.open(`${baseURL}/view_logs`, "_blank");
+  async function downloadLogs() {
+  try {
+    const res = await fetch(`${baseURL}/view_logs`);
+
+    if (!res.ok) throw new Error("Failed download");
+
+    const blob = await res.blob();
+    const url = window.URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "data.csv"; // or whatever your file is
+    document.body.appendChild(a);
+    a.click();
+
+    a.remove();
+    window.URL.revokeObjectURL(url);
+  } catch (err) {
+    addLog("Failed to download logs", "error");
   }
+}
+
 
   function openSprinklers() {
     window.open(`${baseURL}/covariates`, "_blank");
