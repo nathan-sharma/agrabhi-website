@@ -366,7 +366,7 @@ const [maxUncertainty, setMaxUncertainty] = useState(null);
         </div>
 
         <p className="mb-2">
-          Drone Status: <strong>{droneStatus}</strong>
+          Drone: <strong>{droneStatus}</strong>
         </p>
 
         <div className="mb-4 flex flex-col md:flex-row gap-2">
