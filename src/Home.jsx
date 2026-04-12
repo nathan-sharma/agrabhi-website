@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import logo from "/blogo.png";
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showFullAbstract, setShowFullAbstract] = useState(false);
@@ -15,7 +16,7 @@ export default function Home() {
         <div className="max-w-full mx-auto px-6 h-16 flex items-center justify-between">
           {/* Logo/Brand */}
           <div className="flex items-center text-xl font-bold tracking-tighter text-white">
-            <img src="blogo.png" alt="AgraBhi Logo" className="h-6 w-auto translate-y-[1px]" />
+            <img src={logo} alt="AgraBhi Logo" className="h-6 w-auto translate-y-[1px]" />
             <div >
               <Link to="/">Agra<span className="text-emerald-400">Bhi</span></Link>
             </div>
