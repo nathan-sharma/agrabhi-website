@@ -103,10 +103,10 @@ async function triggerLocalNetworkPrompt() {
   async function connectToPi() {
   const url = `http://${piIpRef.current}:5000`;
 
-  setStatusMsg("Requesting network permissions...");
+ 
 
   // 👇 Trigger iOS local network prompt
-  await triggerLocalNetworkPrompt();
+ 
 
   setStatusMsg("Connecting...");
 
@@ -133,7 +133,7 @@ async function triggerLocalNetworkPrompt() {
     setConnected(false);
     addLog("Unable to connect", "error");
     setStatusMsg(
-      "Failed to connect. Check your IP address and make sure local network permissions are enabled in Safari settings."
+      "Failed to connect. Check your IP address."
     );
   }
 }
