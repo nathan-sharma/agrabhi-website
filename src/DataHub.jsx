@@ -78,37 +78,66 @@ const [maxUncertainty, setMaxUncertainty] = useState(null);
     const time = new Date().toLocaleTimeString();
     setLogs((prev) => [{ time, message, type }, ...prev]);
   }
+async function triggerLocalNetworkPrompt() {
+  try {
+    const pc = new RTCPeerConnection({
+      iceServers: [] // no external servers needed
+    });
+
+    // Create a dummy data channel
+    pc.createDataChannel("trigger");
+
+    // Create and set local description (this starts ICE gathering)
+    const offer = await pc.createOffer();
+    await pc.setLocalDescription(offer);
+
+    // Give it a moment to gather ICE candidates
+    await new Promise(resolve => setTimeout(resolve, 1000));
+
+    pc.close();
+  } catch (e) {
+    console.log("Local network permission trigger failed:", e);
+  }
+}
 
   async function connectToPi() {
-    const url = `http://${piIpRef.current}:5000`;
+  const url = `http://${piIpRef.current}:5000`;
 
-    setStatusMsg("Connecting...");
+  setStatusMsg("Requesting network permissions...");
 
-    try {
-      const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 4000);
+  // 👇 Trigger iOS local network prompt
+  await triggerLocalNetworkPrompt();
 
-      const res = await fetch(`${url}/get_latest_point`, {
-        signal: controller.signal
-      });
+  setStatusMsg("Connecting...");
 
-      clearTimeout(timeout);
+  try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 4000);
 
-      if (res.ok) {
-        setConnected(true);
-        addLog("Connected to AgraBhi Data Hub", "success");
-        setStatusMsg("Connected!");
+    const res = await fetch(`${url}/get_latest_point`, {
+      signal: controller.signal
+    });
 
-        setTimeout(() => loadHeatmap(), 200);
-      } else {
-        throw new Error();
-      }
-    } catch {
-      setConnected(false);
-      addLog("Unable to connect", "error");
-      setStatusMsg("Failed to connect. Check your IP address and make sure the drone is powered on and connected to the internet. Make sure you enabled permissions to connect to devices on your network.");
+    clearTimeout(timeout);
+
+    if (res.ok) {
+      setConnected(true);
+      addLog("Connected to AgraBhi Data Hub", "success");
+      setStatusMsg("Connected!");
+
+      setTimeout(() => loadHeatmap(), 200);
+    } else {
+      throw new Error();
     }
+  } catch {
+    setConnected(false);
+    addLog("Unable to connect", "error");
+    setStatusMsg(
+      "Failed to connect. Check your IP address and make sure local network permissions are enabled in Safari settings."
+    );
   }
+}
+
 
   async function sendCommand(cmd) {
     addLog(`Sending ${cmd.toUpperCase()} command...`);
