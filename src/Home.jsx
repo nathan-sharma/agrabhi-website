@@ -61,6 +61,9 @@ export default function Home() {
             <a target="_blank" rel="noopener noreferrer" href="https://github.com/nathan-sharma/Agrabhi" className="text-xs uppercase tracking-widest font-bold text-slate-400 hover:text-emerald-500 transition-colors">
               GitHub
             </a>
+               <a target="_blank" rel="noopener noreferrer" href="https://www.gofundme.com/manage/agrabhi-smarter-soil-moisture-for-farmers" className="text-xs uppercase tracking-widest font-bold text-slate-400 hover:text-emerald-500 transition-colors">
+              GoFundMe
+            </a>
 
             {/* ✅ UPDATED DATA HUB BUTTON */}
             <Link 
@@ -118,6 +121,10 @@ export default function Home() {
             <a href="https://github.com/nathan-sharma/Agrabhi" onClick={toggleMenu}
               className="text-xs uppercase tracking-widest font-bold text-slate-400 hover:text-emerald-500">
               GitHub
+            </a>
+             <a href="https://www.gofundme.com/manage/agrabhi-smarter-soil-moisture-for-farmers" onClick={toggleMenu}
+              className="text-xs uppercase tracking-widest font-bold text-slate-400 hover:text-emerald-500">
+              GoFundMe
             </a>
 
             {/* ✅ UPDATED MOBILE DATA HUB BUTTON */}
