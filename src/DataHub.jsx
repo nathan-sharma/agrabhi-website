@@ -8,11 +8,12 @@ export default function DataHub() {
   const [gpsInput, setGpsInput] = useState({ lat: "", lon: "" });
  const [prediction, setPrediction] = useState(null);
 const [maxUncertainty, setMaxUncertainty] = useState(null);
-
   const [connected, setConnected] = useState(false);
   const [statusMsg, setStatusMsg] = useState("");
   const [logs, setLogs] = useState([]);
   const [droneStatus, setDroneStatus] = useState("Unknown");
+const [rmse, setRmse] = useState(null);
+const [rmseCount, setRmseCount] = useState(0);
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const toggleMenu = () => setIsMenuOpen((v) => !v);
@@ -122,7 +123,7 @@ async function triggerLocalNetworkPrompt() {
 
     if (res.ok) {
       setConnected(true);
-      addLog("Connected to AgraBhi Data Hub", "success");
+      addLog("Connected successfully!", "success");
       setStatusMsg("Connected!");
 
       setTimeout(() => loadHeatmap(), 200);
@@ -134,7 +135,7 @@ async function triggerLocalNetworkPrompt() {
     addLog("Unable to connect", "error");
     setStatusMsg(
       "Failed to connect. Check your IP address and make sure all components are powered on and connected to the internet."
-    );
+    )
   }
 }
 
@@ -164,10 +165,25 @@ async function triggerLocalNetworkPrompt() {
       addLog(`Logged Sample ${data.new_point[0]}`, "success");
       drawMarker(data.new_point);
       loadHeatmap();
+      updateRMSE();
     } catch {
       addLog("Log failed", "error");
     }
   }
+async function updateRMSE() {
+  try {
+    const res = await fetch(`${baseURL}/loocv_rmse`);
+    const data = await res.json();
+
+    if (data.error) return;
+
+    setRmse(data.rmse);
+    setRmseCount(data.n_points_used);
+  } catch {
+    addLog("Failed to compute LOOCV RMSE", "error");
+  }
+}
+
 
   async function collect() {
     addLog("Requesting live sensor data...");
@@ -206,6 +222,7 @@ async function triggerLocalNetworkPrompt() {
       setTimeout(() => {
         setHeatmapImg(imgSrc);
       }, 50);
+updateRMSE();
 
     } catch (err) {
       console.log(err);
@@ -483,16 +500,37 @@ async function triggerLocalNetworkPrompt() {
                 alt="Heatmap"
               />
             </div>
+<div className="p-3 text-sm text-yellow-300 border-t border-[#333]">
 
-            {maxUncertainty && (
-              <div className="p-3 text-sm text-yellow-300 border-t border-[#333]">
-                <div className="font-bold text-white mb-1">Highest Uncertainty Area</div>
-                <div>Lat: {maxUncertainty.lat}</div>
-                <div>Lon: {maxUncertainty.lon}</div>
-                <div>Uncertainty: {maxUncertainty.value.toFixed(2)} % VWC</div>
-              </div>
-            )}
-          </div>
+
+  <div className="flex flex-col md:flex-row">
+<div className="flex-1">
+  {maxUncertainty && (
+    <>
+      <div className="font-bold text-white mb-1">
+        Highest Uncertainty Area
+      </div>
+      <div>Lat: {maxUncertainty.lat}</div>
+      <div>Lon: {maxUncertainty.lon}</div>
+      <div>Uncertainty: {maxUncertainty.value.toFixed(2)} % VWC</div>
+    </>
+  )}
+</div>
+<div className="flex-1">
+  {rmse !== null && (
+    <>
+      <div className="font-bold text-white mb-1">
+        LOOCV RMSE
+      </div>
+      <div>RMSE: {rmse.toFixed(3)} % VWC</div>
+      <div>Samples: {rmseCount}</div>
+    </>
+  )}
+</div>
+  </div>
+</div>
+
+      </div>
         )}
 
       </div>
