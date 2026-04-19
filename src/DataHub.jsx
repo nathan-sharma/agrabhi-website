@@ -461,11 +461,28 @@ async function simulateData() {
         </h2>
 
         <div className="space-y-2 text-sm text-gray-300 leading-relaxed">
-          <p>Make sure your Pi is registered with Tailscale before attempting to connect. Enter the IP address from Tailscale to connect.</p>
-          <p>The program will refuse to log if your sample points are too close together.</p>
-          <p>See Mission Planner for drone telemetry data.</p>
-          <p>Enter sprinkler coordinates for better heatmap accuracy.</p>
-          <p>Click 'Read Sensors' before logging data.</p>
+          <p>Make sure your Pi and device you are using the Data Hub on are both registered with <a
+              target="_blank"
+              rel="noopener noreferrer"
+              href="https://tailscale.com/"
+              className="underline hover:text-gray-500"
+            >
+              Tailscale
+            </a> before attempting to connect.</p>
+          <p>The program will refuse to log if your sample points are too close together. Use Force Log to bypass this.</p>
+          <p>The Data Hub is only for analyzing and collecting moisture data. Please see Mission Planner for drone telemetry data.</p>
+          <p>Enter sprinkler coordinates to improve the model's predictions.</p>
+          <p>Click 'Read Sensors' before logging data to avoid blank logs!</p>
+         <div className = "mt-2">
+          <a
+              target="_blank"
+              rel="noopener noreferrer"
+              href="https://docs.google.com/document/d/1S0mL2VNIkHVH2baN0HFV6N_pfqVgpON1sv6gE_mZ1rs/edit?usp=sharing"
+              className="underline hover:text-gray-500"
+            >
+              More Troubleshooting
+            </a>
+            </div>
         </div>
       </div>
 

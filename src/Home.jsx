@@ -284,7 +284,7 @@ export default function Home() {
                 Image Analysis
               </h3>
               <p className="text-slate-400 font-light text-sm leading-relaxed">
-                The drone will take multiple GPS-tagged images to stitch into a field map. Then, an image model will then identify overly dry areas by color (if they are very brown or yellow) and mark them as points of interest. This will allow the drone to quickly identify underwatered areas on farm fields and provide farmers with accurate data at those points.
+                The drone will take multiple GPS-tagged images to stitch into a field map. Then, an image model will identify overly dry areas by color (if they are very brown or yellow) and mark them as points of interest. This will allow the drone to quickly identify underwatered areas on farm fields and provide farmers with accurate data at those points.
               </p>
             </div>
             <div>
@@ -293,7 +293,7 @@ export default function Home() {
                 Adaptive Path Planning
               </h3>
               <p className="text-slate-400 font-light text-sm leading-relaxed">
-                The drone will initially measure 15-20 randomly scattered points on the field. Then, our model will try to create a heatmap from these measurements. From here, the drone can fly to the areas on the heatmap the model is the most uncertain about, repeating the process until uncertainty is approximately the same across the field. This lets the drone improve its own predictive accuracy.
+                The drone will initially measure 15-20 randomly scattered points on the field. Then, our model will create a heatmap from these measurements. From here, the drone will fly to the areas on the heatmap the model is the most uncertain about, repeating the process until uncertainty is approximately the same across the field. We think this will let the drone improve its own predictive accuracy.
               </p>
             </div>
           </div>
