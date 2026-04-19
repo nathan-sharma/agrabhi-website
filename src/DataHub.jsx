@@ -31,6 +31,11 @@ const [rmseCount, setRmseCount] = useState(0);
   const mapRef = useRef(null);
   const leafletMap = useRef(null);
   const markersRef = useRef([]);
+const [simInput, setSimInput] = useState({
+  lat: "",
+  lon: "",
+  moisture: ""
+});
 
   useEffect(() => {
     if (!connected) return;
@@ -269,6 +274,39 @@ updateRMSE();
       addLog("Failed to clear logs", "error");
     }
   }
+async function simulateData() {
+  addLog("Simulating point...");
+
+  try {
+    const res = await fetch(`${baseURL}/simulate`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        lat: parseFloat(simInput.lat),
+        lon: parseFloat(simInput.lon),
+        moisture: parseFloat(simInput.moisture)
+      })
+    });
+
+    const data = await res.json();
+
+    if (data.status === "error") {
+      addLog(data.message, "error");
+      return;
+    }
+
+    addLog(`Simulated Sample ${data.new_point[0]}`, "success");
+
+    drawMarker(data.new_point);
+    loadHeatmap();
+    updateRMSE();
+
+  } catch {
+    addLog("Simulation failed", "error");
+  }
+}
 
   async function downloadLogs() {
   try {
@@ -458,6 +496,39 @@ updateRMSE();
             Predict Moisture
           </button>
         </div>
+<div className="mt-4 mb-4">
+  <div className="text-white font-bold mb-2">Simulate</div>
+
+  <div className="flex flex-col md:flex-row gap-2">
+    <input
+      className="bg-[#222] p-2 text-white"
+      placeholder="Latitude"
+      value={simInput.lat}
+      onChange={(e) => setSimInput({ ...simInput, lat: e.target.value })}
+    />
+
+    <input
+      className="bg-[#222] p-2 text-white"
+      placeholder="Longitude"
+      value={simInput.lon}
+      onChange={(e) => setSimInput({ ...simInput, lon: e.target.value })}
+    />
+
+    <input
+      className="bg-[#222] p-2 text-white"
+      placeholder="Moisture"
+      value={simInput.moisture}
+      onChange={(e) => setSimInput({ ...simInput, moisture: e.target.value })}
+    />
+
+    <button
+      className="bg-yellow-600 px-3 py-2"
+      onClick={simulateData}
+    >
+      Log
+    </button>
+  </div>
+</div>
 
         <h3 className="text-xl mb-2">System messages:</h3>
         <div className="bg-black text-green-400 p-3 h-[200px] overflow-y-scroll border border-[#333] font-mono">
