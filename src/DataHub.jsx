@@ -36,6 +36,14 @@ const [simInput, setSimInput] = useState({
   lon: "",
   moisture: ""
 });
+const [modelConfig, setModelConfig] = useState({
+  regression: "cubic",
+  variogram: "spherical"
+});
+const [regressionImg, setRegressionImg] = useState(null);
+const [variogramImg, setVariogramImg] = useState(null);
+const [r2, setR2] = useState(null);
+const [varError, setVarError] = useState(null);
 
   useEffect(() => {
     if (!connected) return;
@@ -48,6 +56,18 @@ const [simInput, setSimInput] = useState({
       { attribution: "Tiles © Esri" }
     ).addTo(leafletMap.current);
   }, [connected]);
+useEffect(() => {
+  if (!connected) return;
+  loadHeatmap();
+}, [modelConfig]);
+
+
+useEffect(() => {
+  if (!connected) return;
+
+  updateRMSE();
+}, [connected, modelConfig.regression, modelConfig.variogram]);
+
 
   function drawMarker(point) {
     if (!leafletMap.current) return;
@@ -177,7 +197,12 @@ async function triggerLocalNetworkPrompt() {
   }
 async function updateRMSE() {
   try {
-    const res = await fetch(`${baseURL}/loocv_rmse`);
+    const res = await fetch(`${baseURL}/loocv_rmse`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(modelConfig)
+    });
+
     const data = await res.json();
 
     if (data.error) return;
@@ -188,6 +213,7 @@ async function updateRMSE() {
     addLog("Failed to compute LOOCV RMSE", "error");
   }
 }
+
 
 
   async function collect() {
@@ -205,35 +231,55 @@ async function updateRMSE() {
   }
 
   async function loadHeatmap() {
-    try {
-      const res = await fetch(`${baseURL}/heatmap`, {
-        cache: "no-store"
-      });
+  try {
+    const res = await fetch(`${baseURL}/heatmap`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(modelConfig),
+      cache: "no-store"
+    });
 
-      const data = await res.json();
+    const data = await res.json();
 
-      if (!data || !data.image) {
-        addLog("Heatmap missing image field", "error");
-        return;
-      }
-
-      if (data.max_uncertainty) {
-        setMaxUncertainty(data.max_uncertainty);
-      }
-
-      const imgSrc = `data:image/png;base64,${data.image}`;
-
-      setHeatmapImg(null);
-      setTimeout(() => {
-        setHeatmapImg(imgSrc);
-      }, 50);
-updateRMSE();
-
-    } catch (err) {
-      console.log(err);
-      addLog("Failed to load heatmap", "error");
+    if (!data || data.error) {
+      addLog(data.error || "Heatmap missing response", "error");
+      return;
     }
+
+    if (!data.image) {
+      addLog("Heatmap missing image field", "error");
+      return;
+    }
+
+    setHeatmapImg(`data:image/png;base64,${data.image}`);
+
+    if (data.regression_plot) {
+      setRegressionImg(`data:image/png;base64,${data.regression_plot}`);
+    }
+
+    if (data.variogram_plot) {
+      setVariogramImg(`data:image/png;base64,${data.variogram_plot}`);
+    }
+
+    if (data.max_uncertainty) {
+      setMaxUncertainty(data.max_uncertainty);
+    }
+    if (data.regression_r2 !== undefined) {
+  setR2(data.regression_r2);
+}
+
+    if (data.variogram_fit_error !== undefined) {
+  setVarError(data.variogram_fit_error);
+}
+
+
+    updateRMSE();
+  } catch (err) {
+    console.log(err);
+    addLog("Failed to load heatmap", "error");
   }
+}
+
 
   async function predictMoisture() {
     try {
@@ -525,7 +571,7 @@ async function simulateData() {
       className="bg-yellow-600 px-3 py-2"
       onClick={simulateData}
     >
-      Log
+      Log Simulated Point
     </button>
   </div>
 </div>
@@ -571,7 +617,7 @@ async function simulateData() {
                 alt="Heatmap"
               />
             </div>
-<div className="p-3 text-sm text-yellow-300 border-t border-[#333]">
+<div className="p-3 text-sm text-yellow-300 border-t border-[#333] relative z-20">
 
 
   <div className="flex flex-col md:flex-row">
@@ -598,6 +644,36 @@ async function simulateData() {
     </>
   )}
 </div>
+
+<div className="mt-3 flex gap-2 flex-wrap">
+
+  <select
+    className="bg-[#222] p-2 cursor-pointer relative z-30"
+    value={modelConfig.regression}
+    onChange={(e) =>
+      setModelConfig({ ...modelConfig, regression: e.target.value })
+    }
+  >
+    <option value="linear">Linear Regression</option>
+    <option value="quadratic">Quadratic Regression</option>
+    <option value="cubic">Cubic Regression</option>
+  </select>
+
+  <select
+    className="bg-[#222] p-2"
+    value={modelConfig.variogram}
+    onChange={(e) =>
+      setModelConfig({ ...modelConfig, variogram: e.target.value })
+    }
+  >
+    <option value="linear">Linear Variogram</option>
+    <option value="exponential">Exponential Variogram</option>
+    <option value="gaussian">Gaussian Variogram</option>
+     <option value="spherical">Spherical Variogram</option>
+  </select>
+
+</div>
+
   </div>
 </div>
 
@@ -606,6 +682,38 @@ async function simulateData() {
 
       </div>
 
+<div className="flex flex-col md:flex-row gap-7 -translate-y-24">
+  {regressionImg && (
+    <div className="border border-[#333] rounded">
+      <div className="p-2 text-sm text-white font-bold">
+        Regression Model (Moisture vs Distance)
+           <div> r^2 (correlation strength): {r2.toFixed(4)} </div>
+     
+      </div>
+      <img
+        src={regressionImg}
+        className="w-full h-[290px] object-contain rounded"
+        alt="Regression Plot"
+      />
     </div>
+  )}
+
+  {variogramImg && (
+    <div className="border border-[#333] rounded">
+      <div className="p-2 text-sm text-white font-bold">
+        Variogram
+         <div> Variogram MSE: {varError.toFixed(4)} </div>
+      </div>
+      <img
+        src={variogramImg}
+        className="w-full h-[290px] object-contain rounded"
+        alt="Variogram Plot"
+      />
+    </div>
+  )}
+</div>
+</div>
+
+  
   );
 }
