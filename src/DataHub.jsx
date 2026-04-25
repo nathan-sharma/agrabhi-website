@@ -38,7 +38,8 @@ const [simInput, setSimInput] = useState({
 });
 const [modelConfig, setModelConfig] = useState({
   regression: "cubic",
-  variogram: "spherical"
+  variogram: "spherical",
+  uncertainty_mode: "kriging_only"
 });
 const [regressionImg, setRegressionImg] = useState(null);
 const [variogramImg, setVariogramImg] = useState(null);
@@ -634,101 +635,142 @@ async function simulateData() {
                 alt="Heatmap"
               />
             </div>
-<div className="p-3 text-sm text-yellow-300 border-t border-[#333] relative z-20">
 
 
-  <div className="flex flex-col md:flex-row">
-<div className="flex-1">
-  {maxUncertainty && (
-    <>
-      <div className="font-bold text-white mb-1">
-        Highest Uncertainty Area
-      </div>
-      <div>Lat: {maxUncertainty.lat}</div>
-      <div>Lon: {maxUncertainty.lon}</div>
-      <div>Uncertainty: {maxUncertainty.value.toFixed(2)} % VWC</div>
-    </>
-  )}
-</div>
-<div className="flex-1">
-  {rmse !== null && (
-    <>
-      <div className="font-bold text-white mb-1">
-        LOOCV RMSE
-      </div>
-      <div>RMSE: {rmse.toFixed(3)} % VWC</div>
-      <div>Samples: {rmseCount}</div>
-    </>
-  )}
-</div>
-
-<div className="mt-3 flex gap-2 flex-wrap">
-
-  <select
-    className="bg-[#222] p-2 cursor-pointer relative z-30"
-    value={modelConfig.regression}
-    onChange={(e) =>
-      setModelConfig({ ...modelConfig, regression: e.target.value })
-    }
-  >
-    <option value="linear">Linear Regression</option>
-    <option value="quadratic">Quadratic Regression</option>
-    <option value="cubic">Cubic Regression</option>
-  </select>
-
-  <select
-    className="bg-[#222] p-2"
-    value={modelConfig.variogram}
-    onChange={(e) =>
-      setModelConfig({ ...modelConfig, variogram: e.target.value })
-    }
-  >
-    <option value="linear">Linear Variogram</option>
-    <option value="exponential">Exponential Variogram</option>
-    <option value="gaussian">Gaussian Variogram</option>
-     <option value="spherical">Spherical Variogram</option>
-  </select>
-
-</div>
-
-  </div>
-</div>
 
       </div>
+      
         )}
 
       </div>
 
-<div className="flex flex-col md:flex-row gap-7 -translate-y-24">
-  {regressionImg && (
-    <div className="border border-[#333] rounded">
-      <div className="p-2 text-sm text-white font-bold">
-        Regression Model (Moisture vs Distance)
-           <div> r^2 (correlation strength): {r2.toFixed(4)} </div>
-     
-      </div>
-      <img
-        src={regressionImg}
-        className="w-full h-[290px] object-contain rounded"
-        alt="Regression Plot"
-      />
-    </div>
-  )}
+<div className="mt-10 space-y-10 text-sm text-yellow-300 relative z-20">
 
-  {variogramImg && (
-    <div className="border border-[#333] rounded">
-      <div className="p-2 text-sm text-white font-bold">
-        Variogram
-         <div> Variogram MSE: {varError.toFixed(4)} </div>
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+    {regressionImg && (
+      <div className="bg-[#111] border border-[#2a2a2a] rounded-xl p-4">
+        <div className="text-white font-bold mb-2">
+          Regression Model (Moisture vs Distance)
+        </div>
+
+        <div className="text-xs text-gray-300 mb-3">
+          r² (correlation strength): {r2 !== null ? r2.toFixed(4) : ""}
+        </div>
+
+        <img
+          src={regressionImg}
+          className="w-full h-[260px] object-contain rounded"
+          alt="Regression Plot"
+        />
       </div>
-      <img
-        src={variogramImg}
-        className="w-full h-[290px] object-contain rounded"
-        alt="Variogram Plot"
-      />
+    )}
+
+    {variogramImg && (
+      <div className="bg-[#111] border border-[#2a2a2a] rounded-xl p-4">
+        <div className="text-white font-bold mb-2">
+          Variogram
+        </div>
+
+        <div className="text-xs text-gray-300 mb-3">
+          Variogram MSE: {varError !== null ? varError.toFixed(4) : ""}
+        </div>
+
+        <img
+          src={variogramImg}
+          className="w-full h-[260px] object-contain rounded"
+          alt="Variogram Plot"
+        />
+      </div>
+    )}
+
+  </div>
+
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+    <div className="bg-[#111] border border-[#2a2a2a] rounded-xl p-4">
+      {maxUncertainty && (
+        <>
+          <div className="text-white font-semibold mb-2">
+            Highest Uncertainty Area
+          </div>
+
+          <div className="text-yellow-200 space-y-1">
+            <div>Lat: {maxUncertainty.lat}</div>
+            <div>Lon: {maxUncertainty.lon}</div>
+            <div>Score: {maxUncertainty.value.toFixed(2)}</div>
+          </div>
+        </>
+      )}
     </div>
-  )}
+
+    <div className="bg-[#111] border border-[#2a2a2a] rounded-xl p-4">
+      {rmse !== null && (
+        <>
+          <div className="text-white font-semibold mb-2">
+            LOOCV RMSE
+          </div>
+
+          <div className="text-yellow-200 space-y-1">
+            <div>RMSE: {rmse.toFixed(3)} % VWC</div>
+            <div>Samples: {rmseCount}</div>
+          </div>
+        </>
+      )}
+    </div>
+
+  </div>
+
+  <div className="bg-[#111] border border-[#2a2a2a] rounded-xl p-4">
+
+    <div className="flex flex-col md:flex-row flex-wrap gap-4 justify-between">
+
+      <select
+        className="bg-[#222] text-white p-2 rounded-md border border-[#333] cursor-pointer focus:outline-none focus:ring-1 focus:ring-yellow-400"
+        value={modelConfig.regression}
+        onChange={(e) =>
+          setModelConfig({ ...modelConfig, regression: e.target.value })
+        }
+      >
+        <option value="linear">Linear Regression</option>
+        <option value="quadratic">Quadratic Regression</option>
+        <option value="cubic">Cubic Regression</option>
+      </select>
+
+      <select
+        className="bg-[#222] text-white p-2 rounded-md border border-[#333] cursor-pointer focus:outline-none focus:ring-1 focus:ring-yellow-400"
+        value={modelConfig.uncertainty_mode}
+        onChange={(e) =>
+          setModelConfig({
+            ...modelConfig,
+            uncertainty_mode: e.target.value
+          })
+        }
+      >
+        <option value="kriging_only">Kriging Only</option>
+        <option value="variance_distance">Variance × Distance</option>
+        <option value="top10_farthest">Top N Farthest</option>
+      </select>
+
+      <select
+        className="bg-[#222] text-white p-2 rounded-md border border-[#333] cursor-pointer focus:outline-none focus:ring-1 focus:ring-yellow-400"
+        value={modelConfig.variogram}
+        onChange={(e) =>
+          setModelConfig({ ...modelConfig, variogram: e.target.value })
+        }
+      >
+        <option value="linear">Linear Variogram</option>
+        <option value="exponential">Exponential Variogram</option>
+        <option value="gaussian">Gaussian Variogram</option>
+        <option value="spherical">Spherical Variogram</option>
+      </select>
+
+    </div>
+
+  </div>
+
 </div>
+
 </div>
 
   
